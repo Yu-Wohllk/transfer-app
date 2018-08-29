@@ -2,7 +2,19 @@
   <div class="container">
     <h1>Transferencias</h1>
     <template v-if="accountData">
-      <component v-bind:is="step" v-bind:accountData="accountData" v-bind:currentAccount="currentAccount"  v-on:filter-account="filterAccount"></component>
+      <detail
+        v-bind:accountData="accountData" 
+        v-bind:currentAccount="currentAccount" 
+        v-bind:frecuentDestinataries="frecuentDestinataries" 
+        v-bind:currentDestinataryAccount="currentDestinataryAccount" 
+        v-on:filter-account="filterAccount"
+        v-on:filter-destinatary="filterDestinataryAccount">
+      </detail>
+      <hr>
+      <confirm
+        v-bind:currentAccount="currentAccount"
+        v-bind:currentDestinataryAccount="currentDestinataryAccount">
+      </confirm>
     </template>
     <template v-else>
       <div class="alert alert-danger" role="alert">
@@ -23,18 +35,21 @@ export default {
     Detail,
     Voucher
   },
-  created : function() {
+  created () {
     this.getAccountData();
+    this.getFrecuentDestinataries();
   },
   data () {
     return {
-      step : 'Detail',
+      step : 'Confirm',
       accountData : null,
+      frecuentDestinataries : null,
       currentAccount : null,
+      currentDestinataryAccount : null
     }
   },
   methods : {
-    getAccountData : function() {
+    getAccountData () {
       this.accountData = {
         accounts : [
           { 
@@ -46,7 +61,7 @@ export default {
           },
           { 
             id : 2, 
-            type : 'Cuenta Corriente', 
+            type : 'Cuenta Vista', 
             accountBalance : 6000000, 
             creditLine : 2000000,
             number : '1111-1111-1111'
@@ -54,8 +69,78 @@ export default {
         ] 
       }
     },
-    filterAccount : function(accountId) {
-      this.currentAccount =  this.accountData.accounts.find((account) => account.id == accountId);
+    getFrecuentDestinataries () {
+      this.frecuentDestinataries = {
+        destinataries : [
+          {
+            id: 1, 
+            name: 'Americo Faundez', 
+            accountData : {
+              bankName : 'BBVA',
+              accountNumber : '1234-5678-1234',
+              accountType : 'Cuenta Corriente',
+              headline : 'Americo Faundez',
+              rut : '11.111.111-1',
+              email : 'afaundez@bbva.cl'
+            }
+          },
+          {
+            id: 2, 
+            name: 'Claudio Salazar', 
+            accountData : {
+              bankName : 'Scotiabank',
+              accountNumber : '4321-4747-3213',
+              accountType : 'Cuenta Vista',
+              headline : 'Claudio Salazar',
+              rut : '22.222.222-2',
+              email : 'csalazar@scotiabank.cl'
+            }
+          },
+          {
+            id: 3, 
+            name: 'Andres Perez', 
+            accountData : {
+              bankName : 'BBVA',
+              accountNumber : '4444-5555-6666',
+              accountType : 'Cuenta Corriente',
+              headline : 'Andres Perez',
+              rut : '33.333.333-3',
+              email : 'aperez@bbva.cl'
+            }
+          },
+          {
+            id: 4, 
+            name: 'Jessica Fusco', 
+            accountData : {
+              bankName : 'Scotiabank',
+              accountNumber : '1234-5434-4324',
+              accountType : 'Cuenta Vista',
+              headline : 'Jessica Fusco',
+              rut : '44.444.444-4',
+              email : 'jfusco@scotiabank.cl'
+            }
+          },
+          {
+            id: 5, 
+            name: 'Rafael Heredia', 
+            accountData : {
+              bankName : 'BBVA',
+              accountNumber : '4433-6655-3213',
+              accountType : 'Cuenta Corriente',
+              headline : 'Rafael Heredia',
+              rut : '44.444.444-4',
+              email : 'rheredia@bbva.cl'
+            }
+          },
+        ]
+      }
+    },
+    filterAccount (accountId) {
+      this.currentAccount = this.accountData.accounts.find((account) => account.id == accountId);
+    },
+    filterDestinataryAccount (destinataryId) {
+      this.currentDestinataryAccount = this.frecuentDestinataries.destinataries.find((destinatary) => destinatary.id == destinataryId);
+      console.log(this.currentDestinataryAccount);
     }
   }
 }
