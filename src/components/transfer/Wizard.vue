@@ -5,7 +5,9 @@
       <component v-bind:is="step" v-bind:accountData="accountData" v-bind:currentAccount="currentAccount"  v-on:filter-account="filterAccount"></component>
     </template>
     <template v-else>
-      <p>Problemas cargando la data</p>
+      <div class="alert alert-danger" role="alert">
+        Problemas cargando los datos
+      </div>
     </template>
   </div>
 </template>
@@ -28,7 +30,7 @@ export default {
     return {
       step : 'Detail',
       accountData : null,
-      currentAccount : null
+      currentAccount : null,
     }
   },
   methods : {

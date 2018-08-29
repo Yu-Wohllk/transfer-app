@@ -4,11 +4,12 @@
     <form>
       <div class="form-group">
         <label for="account">Selecciona la Cuenta</label>
-        <select class="form-control" id="account" v-on:change="$emit('filter-account', $event.target.value)">
+        <select class="form-control" id="account" v-on:change="$emit('filter-account', $event.target.value)" v-model="accountId">
           <option 
             v-for="account in accountData.accounts" 
             v-bind:key="account.id"
-            v-bind:value="account.id">
+            v-bind:value="account.id"
+            >
             {{ account.type }} - {{account.number}}
             </option>
         </select>
@@ -46,6 +47,14 @@ export default {
     currentAccount : {
       type : Object
     }
+  },
+  data() {
+    return {
+      accountId : this.accountData.accounts[0].id
+    }
+  },
+  mounted : function() {
+    this.$emit('filter-account', this.accountId)
   }
 }
 
