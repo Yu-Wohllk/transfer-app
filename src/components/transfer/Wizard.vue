@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <h1>Transferencias</h1>
+    <step-nav v-bind:steps="steps" v-bind:currentstep="currentstep">
+        </step-nav>
     <template v-if="accountData">
       <detail
         v-bind:accountData="accountData" 
@@ -15,11 +17,13 @@
         v-bind:currentAccount="currentAccount"
         v-bind:currentDestinataryAccount="currentDestinataryAccount">
       </confirm>
+      <hr>
     </template>
-    <template v-else>
-      <div class="alert alert-danger" role="alert">
-        Problemas cargando los datos
-      </div>
+    <template v-if="currentAccount && currentDestinataryAccount">
+      <voucher
+        v-bind:currentAccount="currentAccount"
+        v-bind:currentDestinataryAccount="currentDestinataryAccount">
+      </voucher>
     </template>
   </div>
 </template>
@@ -28,12 +32,14 @@
 import Detail from './Detail.vue';
 import Confirm from './Confirm.vue';
 import Voucher from './Voucher.vue';
+import StepNav from './StepNav.vue'
 
 export default {
   components : {
     Confirm,
     Detail,
-    Voucher
+    Voucher,
+    StepNav
   },
   created () {
     this.getAccountData();
@@ -45,7 +51,25 @@ export default {
       accountData : null,
       frecuentDestinataries : null,
       currentAccount : null,
-      currentDestinataryAccount : null
+      currentDestinataryAccount : null,
+      currentstep: 1,
+      steps : [
+        {
+          id: 1,
+          title: "Position",
+          icon_class: "fa fa-map-marker"
+        },
+        {
+          id: 2,
+          title: "Category",
+          icon_class: "fa fa-folder-open"
+        },
+        {
+          id: 3,
+          title: "Send",
+          icon_class: "fa fa-paper-plane"
+        }
+      ]
     }
   },
   methods : {

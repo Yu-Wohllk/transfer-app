@@ -3,7 +3,7 @@
     <h2>Confirmar</h2>
     <div v-if="currentAccount">
       <h3>Cuenta de Origen</h3>
-      <table class="table">
+      <table>
         <thead>
           <tr>
             <th scope="col">Tipo Cuenta</th>
@@ -17,16 +17,16 @@
           <tr>
             <td>{{ currentAccount.type }}</td>
             <td>{{ currentAccount.number }}</td>
-            <td>{{ currentAccount.accountBalance }}</td>
-            <td>{{ currentAccount.creditLine }}</td>
-            <td>{{ currentAccount.accountBalance + currentAccount.creditLine }}</td>
+            <td>{{ currentAccount.accountBalance | currency }}</td>
+            <td>{{ currentAccount.creditLine | currency }}</td>
+            <td>{{ currentAccount.accountBalance + currentAccount.creditLine | currency }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div v-if="currentDestinataryAccount">
       <h3>Cuenta Destino</h3>
-      <table class="table">
+      <table>
         <thead>
           <tr>
             <th scope="col">Titular</th>
@@ -41,7 +41,7 @@
           <tr>
             <td>{{ currentDestinataryAccount.accountData.headline }}</td>
             <td>{{ currentDestinataryAccount.accountData.bankName }}</td>
-            <td>{{ currentDestinataryAccount.accountData.rut }}</td>
+            <td>{{ currentDestinataryAccount.accountData.rut | rut }}</td>
             <td>{{ currentDestinataryAccount.accountData.accountType }}</td>
             <td>{{ currentDestinataryAccount.accountData.email }}</td>
             <td>{{ currentDestinataryAccount.accountData.accountNumber }}</td>
@@ -53,20 +53,17 @@
 </template>
 
 <script>
-
 export default {
-  props : {
-    currentAccount : {
-      type : Object
+  props: {
+    currentAccount: {
+      type: Object
     },
-    currentDestinataryAccount : {
-      type : Object
+    currentDestinataryAccount: {
+      type: Object
     }
   }
-}
-
+};
 </script>
 
 <style lang="scss">
-
 </style>
