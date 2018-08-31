@@ -1,9 +1,26 @@
 <template>
   <div>
-    <h2>Datos de la Transferencia</h2>
-    <div class="form-group">
-      <label for="account">Selecciona tu Cuenta</label>
-      <select class="form-control" id="account" v-on:change="$emit('filter-account', $event.target.value)" v-model="accountId">
+    <v-card>
+      <v-card-title primary-title>
+        <div>
+          <h3>Datos de la Transferencia</h3>
+        </div>
+      </v-card-title>
+    </v-card>
+    <v-form v-model="valid">
+      <v-select
+        item-text="number"
+        item-value="id"
+        :items="accountData.accounts"
+        v-model="accountId"
+        label="Seleccione una cuenta"
+        solo
+        v-on:change="$emit('filter-account', $event)"
+      ></v-select>
+    </v-form>
+    <div>
+      <label>Selecciona tu Cuenta</label>
+      <select id="account" v-on:change="$emit('filter-account', $event.target.value)" v-model="accountId">
         <option 
           v-for="account in accountData.accounts" 
           v-bind:key="account.id"
@@ -102,7 +119,8 @@ export default {
       selected: null,
       searchProperty : 'name',
       displayProperty : 'name',
-      amount : null
+      amount : null,
+      valid : true
     }
   },
   mounted() {
@@ -112,6 +130,9 @@ export default {
     filterAccount (destinataryId) {
       this.$emit('filter-destinatary', destinataryId);
     }
+  },
+  computed : {
+
   }
 }
 

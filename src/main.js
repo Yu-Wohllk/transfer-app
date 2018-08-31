@@ -1,6 +1,14 @@
 import Vue from 'vue'
+import './filters/filters.js'
+import Vuetify from 'vuetify'
+
+Vue.use(Vuetify)
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import App from './App.vue'
-import "./filters/filters.js"
+ 
+
+
 
 new Vue({
   el: '#app',

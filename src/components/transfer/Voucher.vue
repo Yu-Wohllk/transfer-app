@@ -47,11 +47,9 @@ export default {
   props : {
     currentAccount : {
       type : Object,
-      required : true
     },
     currentDestinataryAccount : {
       type : Object,
-      required : true
     }
   },
   data () {
