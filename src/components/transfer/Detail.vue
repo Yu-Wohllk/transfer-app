@@ -1,17 +1,19 @@
 <template>
   <v-container fluid grid-list-md>
-    <v-form v-model="valid">
+    <v-form ref="form" v-model="valid" lazy-validation>
       <v-layout row wrap>
-        <v-flex xs6>
+        <v-flex xs12 lg6>
           <div class="subheading">Selecciona tu cuenta</div>
           <v-select
             item-text="number"
             item-value="id"
-            :items="accountData.accounts"
+            v-bind:items="accountData.accounts"
+            v-bind:rules="accountIdRules"
             v-model="accountId"
             label="Seleccione una cuenta"
             solo
             v-on:change="$emit('filter-account', $event)"
+            required
           >
             <template slot="selection" slot-scope="data">
               {{ data.item.number }} - {{ data.item.type }}
@@ -28,23 +30,41 @@
           <div class="subheading">¿A quién vas a transferir?</div>
           <v-combobox
             v-model="selectedDestinatary"
-            :items="frecuentDestinataries.destinataries"
+            v-bind:items="frecuentDestinataries.destinataries"
             item-text="name"
             item-value="name"
+            v-bind:rules="accountIdRules"
             v-on:change="filterAccount"
+            required
           ></v-combobox>
           <destinatary-account-detail
             v-if="currentDestinataryAccount"
             v-bind:currentDestinataryAccount="currentDestinataryAccount">
           </destinatary-account-detail>
-          <div v-if="currentDestinataryAccount">
-            <br>
-            <div class="subheading">Ingresa el monto que vas a transferir</div>
-            <v-text-field v-model="amount"></v-text-field>
-            <p class="subheading">Monto a Transferir : {{ amount | currency }}</p>
-          </div>
         </v-flex>
       </v-layout>
+      <v-layout row wrap align-end fill-height v-if="currentDestinataryAccount">
+        <br>
+        <v-flex xs12 lg3>
+          <div class="subheading">Ingresa el monto que vas a transferir</div>
+        <v-text-field 
+          v-model="amount"
+          v-bind:rules="amountRules"
+          label="Amount"
+          required>
+        </v-text-field>
+        </v-flex>
+        <v-flex xs12 lg7>
+          <p class="subheading">Monto a Transferir : {{ amount | currency }}</p>
+        </v-flex>
+      </v-layout>
+      <v-btn
+        color="primary"
+        v-bind:disabled="!valid"
+        v-on:click="submit"
+      >
+        Continue
+      </v-btn>
     </v-form>
   </v-container>
 </template>
@@ -80,9 +100,18 @@ export default {
   data() {
     return {
       accountId : this.accountData.accounts[0].id,
+      accountIdRules : [
+        v => !!v || 'Debes ingresar una cuenta'
+      ],
       selectedDestinatary: null,
+      selectedDestinataryRules : [
+        v => !!v || 'Debes ingresar una cuenta de destino'
+      ],
       amount : null,
-      valid : true
+      amountRules : [
+        v => (!!v > 0 && !isNaN(v) ) || 'Debes ingresar un monto'
+      ],
+      valid : false
     }
   },
   mounted() {
@@ -95,6 +124,12 @@ export default {
       } catch(error) {
         console.log('No hay seleccion de destinatario');
       }
+    },
+    submit () {
+      if (this.$refs.form.validate()) {
+        console.log('validado!');
+        this.$emit('go-next-step',2);
+      } 
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-bind:value="currentstep">
+  <v-stepper v-bind:value="currentStep">
     <v-stepper-header>
       <v-stepper-step step="1">Transferir</v-stepper-step>
       <v-divider></v-divider>
@@ -15,14 +15,9 @@
           v-bind:frecuentDestinataries="frecuentDestinataries" 
           v-bind:currentDestinataryAccount="currentDestinataryAccount" 
           v-on:filter-account="filterAccount"
-          v-on:filter-destinatary="filterDestinataryAccount">
+          v-on:filter-destinatary="filterDestinataryAccount"
+          v-on:go-next-step="goNextStep">
         </detail>
-        <v-btn
-          color="primary"
-          v-on:click="currentstep = 2"
-        >
-          Continue
-        </v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <confirm
@@ -31,7 +26,7 @@
         </confirm>
         <v-btn
           color="primary"
-          v-on:click="currentstep = 3"
+          v-on:click="currentStep = 3"
         >
           Continue
         </v-btn>
@@ -44,7 +39,7 @@
         </voucher>
         <v-btn
           color="primary"
-          v-on:click="currentstep = 1"
+          v-on:click="currentStep = 1"
         >
           Continue
         </v-btn>
@@ -76,7 +71,7 @@ export default {
       frecuentDestinataries : null,
       currentAccount : null,
       currentDestinataryAccount : null,
-      currentstep: 1,
+      currentStep: 1,
     }
   },
   methods : {
@@ -172,6 +167,10 @@ export default {
     filterDestinataryAccount (destinataryId) {
       this.currentDestinataryAccount = this.frecuentDestinataries.destinataries.find((destinatary) => destinatary.id == destinataryId);
       console.log(this.currentDestinataryAccount);
+    },
+    goNextStep (step) {
+      console.log(step);
+      this.currentStep = step
     }
   }
 }
