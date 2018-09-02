@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-card>
-      <v-card-title primary-title>
-        <div>
-          <h3>Datos de la Transferencia</h3>
-        </div>
-      </v-card-title>
-    </v-card>
     <v-form v-model="valid">
+      <label>Selecciona tu Cuenta</label>
       <v-select
         item-text="number"
         item-value="id"
@@ -18,35 +12,8 @@
         v-on:change="$emit('filter-account', $event)"
       ></v-select>
     </v-form>
-    <div>
-      <label>Selecciona tu Cuenta</label>
-      <select id="account" v-on:change="$emit('filter-account', $event.target.value)" v-model="accountId">
-        <option 
-          v-for="account in accountData.accounts" 
-          v-bind:key="account.id"
-          v-bind:value="account.id">
-          {{ account.type }} - {{account.number}}
-        </option>
-      </select>
-    </div>
-    <div v-if="currentAccount">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Saldo</th>
-            <th scope="col">Linea Crédito</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ currentAccount.accountBalance | currency }}</td>
-            <td>{{ currentAccount.creditLine | currency }}</td>
-            <td>{{ currentAccount.accountBalance + currentAccount.creditLine | currency }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    {{currentAccount}}
+    <detail-account-table v-if="currentAccount" v-bind:currentAccount="currentAccount"></detail-account-table>
     
       <label>Busca al Destinatario</label>
       <typeahead 
@@ -92,10 +59,12 @@
 <script>
 
 import Typeahead from '../utilities/Typeahead.vue';
+import DetailAccountTable from './DetailAccountTable.vue';
 
 export default {
   components : {
-    Typeahead
+    Typeahead,
+    DetailAccountTable
   },
   props : {
     accountData : {

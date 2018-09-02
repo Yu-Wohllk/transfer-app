@@ -1,61 +1,59 @@
 <template>
-  <div>
-    <v-stepper v-bind:value="currentstep">
-      <v-stepper-header>
-        <v-stepper-step step="1">Transferir</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="2">Confirmar</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="3">Comprobante</v-stepper-step>
-      </v-stepper-header>
-      
-      <v-stepper-items>
-        <v-stepper-content step="1">
-          <detail
-            v-bind:accountData="accountData" 
-            v-bind:currentAccount="currentAccount" 
-            v-bind:frecuentDestinataries="frecuentDestinataries" 
-            v-bind:currentDestinataryAccount="currentDestinataryAccount" 
-            v-on:filter-account="filterAccount"
-            v-on:filter-destinatary="filterDestinataryAccount">
-          </detail>
-          <v-btn
-            color="primary"
-            v-on:click="currentstep = 2"
-          >
-            Continue
-          </v-btn>
-          <v-btn flat>Cancel</v-btn>
-        </v-stepper-content>
-        <v-stepper-content step="2">
-          <confirm
-            v-bind:currentAccount="currentAccount"
-            v-bind:currentDestinataryAccount="currentDestinataryAccount">
-          </confirm>
-          <v-btn
-            color="primary"
-            v-on:click="currentstep = 3"
-          >
-            Continue
-          </v-btn>
-          <v-btn flat>Cancel</v-btn>
-        </v-stepper-content>
-        <v-stepper-content step="3">
-          <voucher v-if="currentAccount && currentDestinataryAccount"
-            v-bind:currentAccount="currentAccount"
-            v-bind:currentDestinataryAccount="currentDestinataryAccount">
-          </voucher>
-          <v-btn
-            color="primary"
-            v-on:click="currentstep = 1"
-          >
-            Continue
-          </v-btn>
-          <v-btn flat>Cancel</v-btn>
-        </v-stepper-content>
-      </v-stepper-items>
-    </v-stepper>
-  </div>
+  <v-stepper v-bind:value="currentstep">
+    <v-stepper-header>
+      <v-stepper-step step="1">Transferir</v-stepper-step>
+      <v-divider></v-divider>
+      <v-stepper-step step="2">Confirmar</v-stepper-step>
+      <v-divider></v-divider>
+      <v-stepper-step step="3">Comprobante</v-stepper-step>
+    </v-stepper-header>
+    
+    <v-stepper-items>
+      <v-stepper-content step="1">
+        <detail
+          v-bind:accountData="accountData" 
+          v-bind:currentAccount="currentAccount" 
+          v-bind:frecuentDestinataries="frecuentDestinataries" 
+          v-bind:currentDestinataryAccount="currentDestinataryAccount" 
+          v-on:filter-account="filterAccount"
+          v-on:filter-destinatary="filterDestinataryAccount">
+        </detail>
+        <v-btn
+          color="primary"
+          v-on:click="currentstep = 2"
+        >
+          Continue
+        </v-btn>
+        <v-btn flat>Cancel</v-btn>
+      </v-stepper-content>
+      <v-stepper-content step="2">
+        <confirm
+          v-bind:currentAccount="currentAccount"
+          v-bind:currentDestinataryAccount="currentDestinataryAccount">
+        </confirm>
+        <v-btn
+          color="primary"
+          v-on:click="currentstep = 3"
+        >
+          Continue
+        </v-btn>
+        <v-btn flat>Cancel</v-btn>
+      </v-stepper-content>
+      <v-stepper-content step="3">
+        <voucher v-if="currentAccount && currentDestinataryAccount"
+          v-bind:currentAccount="currentAccount"
+          v-bind:currentDestinataryAccount="currentDestinataryAccount">
+        </voucher>
+        <v-btn
+          color="primary"
+          v-on:click="currentstep = 1"
+        >
+          Continue
+        </v-btn>
+        <v-btn flat>Cancel</v-btn>
+      </v-stepper-content>
+    </v-stepper-items>
+  </v-stepper>
 </template>
 
 <script>
