@@ -14,7 +14,7 @@
         </tr>
         <tr>
           <td>Monto</td>
-          <td>{{  }}</td>
+          <td>{{ currentAccount.accountBalance }}</td>
         </tr> 
         <tr>
           <td>Cuenta Destino</td>

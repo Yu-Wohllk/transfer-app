@@ -7,7 +7,6 @@
       <v-divider></v-divider>
       <v-stepper-step step="3">Comprobante</v-stepper-step>
     </v-stepper-header>
-    
     <v-stepper-items>
       <v-stepper-content step="1">
         <detail
@@ -24,7 +23,6 @@
         >
           Continue
         </v-btn>
-        <v-btn flat>Cancel</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <confirm
