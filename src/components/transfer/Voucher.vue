@@ -1,44 +1,74 @@
 <template>
-  <div>
-    <h2>Comprobante</h2>
-    <div>
-      <h3>Transferencia realizada correctamente</h3>
-      <table>
-        <tr>
-          <td>N° de Transacción</td>
-          <td>{{ transactionNumber }}</td>
-        </tr>
-        <tr>
-          <td>Cuenta de Origen</td>
-          <td>{{ currentAccount.number }}</td>
-        </tr>
-        <tr>
-          <td>Monto</td>
-          <td>{{ currentAccount.accountBalance }}</td>
-        </tr> 
-        <tr>
-          <td>Cuenta Destino</td>
-          <td>{{ currentDestinataryAccount.accountData.accountNumber }}</td>
-        </tr>
-        <tr>
-          <td>Rut</td>
-          <td>{{ currentDestinataryAccount.accountData.rut | rut }}</td>
-        </tr>
-        <tr>
-          <td>Nombre</td>
-          <td>{{ currentDestinataryAccount.accountData.headline }}</td>
-        </tr>
-        <tr>
-          <td>Fecha</td>
-          <td>{{ date }}</td>
-        </tr>
-        <tr>
-          <td>Hora</td>
-          <td>{{ hour }}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
+  <v-container>
+    <v-alert
+          :value="true"
+          type="success"
+        >
+          Transferencia Realizada Correctamente - N° Transaccion : {{ transactionNumber() }}
+        </v-alert>
+    <v-card>
+      <v-card-title>
+        <h4>Datos Transferencia</h4>
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Cuenta Origen: </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ currentAccount.number }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Monto: </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ amount | currency }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Cuenta Destino : </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ currentDestinataryAccount.accountData.accountNumber }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Rut: </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ currentDestinataryAccount.accountData.rut }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Nombre: </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ currentDestinataryAccount.accountData.headline }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Fecha: </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ date() }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>Hora: </v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            {{ hour() }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -50,22 +80,21 @@ export default {
     },
     currentDestinataryAccount : {
       type : Object,
-    }
-  },
-  data () {
-    return {
-      
-    }
-  },
-  computed : {
-    transactionNumber () {
-      return Math.floor((Math.random() * 99999999) + 1);
     },
+    amount : {
+      type : Number,
+      required : true
+    }
+  },
+  methods : {
     date () {
       return new Date().toLocaleDateString();
     },
     hour () {
       return new Date().toLocaleTimeString();
+    },
+    transactionNumber () {
+      return Math.floor((Math.random() * 99999999) + 1);
     }
   }
 }

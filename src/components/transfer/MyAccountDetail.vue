@@ -1,9 +1,25 @@
 <template>
   <v-card>
     <v-card-title>
-      <h4>Datos de tu cuenta</h4>
+      <h4>Datos de Tu Cuenta</h4>
     </v-card-title>
     <v-divider></v-divider>
+    <v-list dense>
+      <v-list-tile>
+        <v-list-tile-content>N° Cuenta: </v-list-tile-content>
+        <v-list-tile-content class="align-end">
+          {{ currentAccount.number }}
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+    <v-list dense>
+      <v-list-tile>
+        <v-list-tile-content>Tipo Cuenta: </v-list-tile-content>
+        <v-list-tile-content class="align-end">
+          {{ currentAccount.type }}
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
     <v-list dense>
       <v-list-tile>
         <v-list-tile-content>Saldo: </v-list-tile-content>

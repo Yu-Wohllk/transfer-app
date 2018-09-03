@@ -10,40 +10,33 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <detail
+          v-if="accountData && frecuentDestinataries"
           v-bind:accountData="accountData" 
           v-bind:currentAccount="currentAccount" 
           v-bind:frecuentDestinataries="frecuentDestinataries" 
           v-bind:currentDestinataryAccount="currentDestinataryAccount" 
           v-on:filter-account="filterAccount"
           v-on:filter-destinatary="filterDestinataryAccount"
+          v-on:update-amount="updateAmount"
           v-on:go-next-step="goNextStep">
         </detail>
       </v-stepper-content>
       <v-stepper-content step="2">
         <confirm
           v-bind:currentAccount="currentAccount"
-          v-bind:currentDestinataryAccount="currentDestinataryAccount">
+          v-bind:currentDestinataryAccount="currentDestinataryAccount"
+          v-bind:amount="amount"
+          v-on:go-next-step="goNextStep"
+          v-on:go-back-step="goBackStep"
+          >
         </confirm>
-        <v-btn
-          color="primary"
-          v-on:click="currentStep = 3"
-        >
-          Continue
-        </v-btn>
-        <v-btn flat>Cancel</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
         <voucher v-if="currentAccount && currentDestinataryAccount"
           v-bind:currentAccount="currentAccount"
-          v-bind:currentDestinataryAccount="currentDestinataryAccount">
+          v-bind:currentDestinataryAccount="currentDestinataryAccount"
+          v-bind:amount="amount">
         </voucher>
-        <v-btn
-          color="primary"
-          v-on:click="currentStep = 1"
-        >
-          Continue
-        </v-btn>
-        <v-btn flat>Cancel</v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -71,107 +64,48 @@ export default {
       frecuentDestinataries : null,
       currentAccount : null,
       currentDestinataryAccount : null,
+      amount : 0,
       currentStep: 1,
     }
   },
   methods : {
     getAccountData () {
-      this.accountData = {
-        accounts : [
-          { 
-            id : 1, 
-            type : 'Cuenta Corriente', 
-            accountBalance : 2000000, 
-            creditLine : 1000000,
-            number : '0000-0000-0000'
-          },
-          { 
-            id : 2, 
-            type : 'Cuenta Vista', 
-            accountBalance : 6000000, 
-            creditLine : 2000000,
-            number : '1111-1111-1111'
+      let self = this;
+      fetch('http://localhost:3000/accounts')
+        .then(function(response){
+          if(response.ok) {
+            response.json().then(function(data){
+              self.accountData = data;
+            })
           }
-        ] 
-      }
+        });
     },
     getFrecuentDestinataries () {
-      this.frecuentDestinataries = {
-        destinataries : [
-          {
-            id: 1, 
-            name: 'Americo Faundez', 
-            accountData : {
-              bankName : 'BBVA',
-              accountNumber : '1234-5678-1234',
-              accountType : 'Cuenta Corriente',
-              headline : 'Americo Faundez',
-              rut : '11.111.111-1',
-              email : 'afaundez@bbva.cl'
-            }
-          },
-          {
-            id: 2, 
-            name: 'Claudio Salazar', 
-            accountData : {
-              bankName : 'Scotiabank',
-              accountNumber : '4321-4747-3213',
-              accountType : 'Cuenta Vista',
-              headline : 'Claudio Salazar',
-              rut : '22.222.222-2',
-              email : 'csalazar@scotiabank.cl'
-            }
-          },
-          {
-            id: 3, 
-            name: 'Andres Perez', 
-            accountData : {
-              bankName : 'BBVA',
-              accountNumber : '4444-5555-6666',
-              accountType : 'Cuenta Corriente',
-              headline : 'Andres Perez',
-              rut : '33.333.333-3',
-              email : 'aperez@bbva.cl'
-            }
-          },
-          {
-            id: 4, 
-            name: 'Jessica Fusco', 
-            accountData : {
-              bankName : 'Scotiabank',
-              accountNumber : '1234-5434-4324',
-              accountType : 'Cuenta Vista',
-              headline : 'Jessica Fusco',
-              rut : '44.444.444-4',
-              email : 'jfusco@scotiabank.cl'
-            }
-          },
-          {
-            id: 5, 
-            name: 'Rafael Heredia', 
-            accountData : {
-              bankName : 'BBVA',
-              accountNumber : '4433-6655-3213',
-              accountType : 'Cuenta Corriente',
-              headline : 'Rafael Heredia',
-              rut : '44.444.444-4',
-              email : 'rheredia@bbva.cl'
-            }
-          },
-        ]
-      }
+      let self = this;
+      fetch('http://localhost:3000/destinataries')
+        .then(function(response){
+          if(response.ok) {
+            response.json().then(function(data){
+              self.frecuentDestinataries = data;
+            })
+          }
+        });
     },
     filterAccount (accountId) {
-      this.currentAccount = this.accountData.accounts.find((account) => account.id == accountId);
+      this.currentAccount = this.accountData.find((account) => account.id == accountId);
     },
     filterDestinataryAccount (destinataryId) {
-      this.currentDestinataryAccount = this.frecuentDestinataries.destinataries.find((destinatary) => destinatary.id == destinataryId);
-      console.log(this.currentDestinataryAccount);
+      this.currentDestinataryAccount = this.frecuentDestinataries.find((destinatary) => destinatary.id == destinataryId);
     },
-    goNextStep (step) {
-      console.log(step);
-      this.currentStep = step
-    }
+    updateAmount (newAmount) {
+      this.amount = newAmount;
+    },
+    goNextStep () {
+      this.currentStep++
+    },
+    goBackStep () {
+      this.currentStep--
+    },
   }
 }
 </script>

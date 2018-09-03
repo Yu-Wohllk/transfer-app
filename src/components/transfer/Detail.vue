@@ -7,7 +7,7 @@
           <v-select
             item-text="number"
             item-value="id"
-            v-bind:items="accountData.accounts"
+            v-bind:items="accountData"
             v-bind:rules="accountIdRules"
             v-model="accountId"
             label="Seleccione una cuenta"
@@ -23,14 +23,16 @@
             </template>
           </v-select>
           <my-account-detail 
-          v-bind:currentAccount="currentAccount" 
-          v-if="currentAccount">
+          v-bind:currentAccount="currentAccount"
+          v-bind:title="'Datos de la cuenta'"
+          v-if="currentAccount"
+          >
           </my-account-detail>
           <br>
           <div class="subheading">¿A quién vas a transferir?</div>
           <v-combobox
             v-model="selectedDestinatary"
-            v-bind:items="frecuentDestinataries.destinataries"
+            v-bind:items="frecuentDestinataries"
             item-text="name"
             item-value="name"
             v-bind:rules="accountIdRules"
@@ -39,6 +41,7 @@
           ></v-combobox>
           <destinatary-account-detail
             v-if="currentDestinataryAccount"
+            v-bind:title="'Datos de la cuenta'"
             v-bind:currentDestinataryAccount="currentDestinataryAccount">
           </destinatary-account-detail>
         </v-flex>
@@ -48,7 +51,7 @@
         <v-flex xs12 lg3>
           <div class="subheading">Ingresa el monto que vas a transferir</div>
         <v-text-field 
-          v-model="amount"
+          v-model.number="amount"
           v-bind:rules="amountRules"
           label="Amount"
           required>
@@ -83,12 +86,10 @@ export default {
   },
   props : {
     accountData : {
-      type : Object,
-      required : true
+      type : Array
     },
     frecuentDestinataries : {
-      type : Object,
-      required : true
+      type : Array
     },
     currentAccount : {
       type : Object
@@ -99,7 +100,7 @@ export default {
   },
   data() {
     return {
-      accountId : this.accountData.accounts[0].id,
+      accountId : this.accountData[0].id,
       accountIdRules : [
         v => !!v || 'Debes ingresar una cuenta'
       ],
@@ -109,7 +110,8 @@ export default {
       ],
       amount : null,
       amountRules : [
-        v => (!!v > 0 && !isNaN(v) ) || 'Debes ingresar un monto'
+        v => (!!v > 0 && !isNaN(v) ) || 'Debes ingresar un monto',
+        v => (v <= this.currentAccount.accountBalance + this.currentAccount.creditLine ) || 'Debes ingresar un monto que no supere tu saldo total'
       ],
       valid : false
     }
@@ -127,9 +129,12 @@ export default {
     },
     submit () {
       if (this.$refs.form.validate()) {
-        console.log('validado!');
-        this.$emit('go-next-step',2);
+        this.$emit('update-amount', this.amount);
+        this.goNextStep();
       } 
+    },
+    goNextStep() {
+      this.$emit('go-next-step');
     }
   }
 }

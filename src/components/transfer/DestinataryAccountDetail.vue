@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h4>Datos de la cuenta</h4>
+      <h4>Datos Cuenta Destino</h4>
     </v-card-title>
     <v-divider></v-divider>
     <v-list dense>

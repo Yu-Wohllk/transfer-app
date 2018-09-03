@@ -3,7 +3,7 @@ import Util from "../utils/util";
 import Vue from 'vue'
 
 Vue.filter('currency', function (value) {
-    return !isNaN(value) ? Accounting.formatMoney(value, { precision : 0, thousand : '.' }) : 0
+    return !isNaN(value) ? Accounting.formatMoney(value, { precision : 0, thousand : '.' }) : '$0'
 });
 
 Vue.filter('rut', function (value) {
