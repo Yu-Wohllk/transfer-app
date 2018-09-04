@@ -9,6 +9,13 @@ module.exports = {
     publicPath: '/dist/',
     filename: 'build.js'
   },
+  resolve: {
+    extensions: ['.js', '.vue'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
   module: {
     rules: [
       {
@@ -50,11 +57,6 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js'
-    }
-  },
   devServer: {
     historyApiFallback: true,
     noInfo: true
@@ -68,7 +70,6 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
@@ -85,4 +86,11 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
+}
+
+if (process.env.NODE_ENV === 'test') {
+  // exclude NPM deps from test bundle
+  module.exports.externals = [require('webpack-node-externals')()]
+  // use inline source map so that it works with mocha-webpack
+  module.exports.devtool = 'inline-cheap-module-source-map'
 }
