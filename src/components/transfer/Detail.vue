@@ -53,7 +53,7 @@
         <v-text-field 
           v-model.number="amount"
           v-bind:rules="amountRules"
-          label="Amount"
+          label="Monto"
           required>
         </v-text-field>
         </v-flex>
