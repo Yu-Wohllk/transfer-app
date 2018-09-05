@@ -69,26 +69,12 @@ export default {
   },
   methods : {
     getAccountData () {
-      let self = this;
-      fetch('http://localhost:3000/accounts')
-        .then(function(response){
-          if(response.ok) {
-            response.json().then(function(data){
-              self.accountData = data;
-            })
-          }
-        });
+      this.accountService()
+        .then(data => this.accountData = data);
     },
     getFrecuentDestinataries () {
-      let self = this;
-      fetch('http://localhost:3000/destinataries')
-        .then(function(response){
-          if(response.ok) {
-            response.json().then(function(data){
-              self.frecuentDestinataries = data;
-            })
-          }
-        });
+      this.frecuentDestinatariesService()
+        .then(data => this.frecuentDestinataries = data);
     },
     filterAccount (accountId) {
       this.currentAccount = this.accountData.find((account) => account.id == accountId);
@@ -100,11 +86,21 @@ export default {
       this.amount = newAmount;
     },
     goNextStep () {
-      this.currentStep++
+      this.currentStep++;
     },
     goBackStep () {
-      this.currentStep--
+      this.currentStep--;
     },
+    accountService () {
+      return fetch('http://localhost:3000/accounts')
+        .then(response => response.json())
+        .catch(error => console.log('Hubo un error al recuperar tus cuentas : ' + error))
+    },
+    frecuentDestinatariesService () {
+      return fetch('http://localhost:3000/destinataries')
+        .then(response => response.json())
+        .catch(error => console.log('Hubo un error al recuperar tus destinatarios : ' + error))
+    }
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-layout row wrap>
         <v-flex xs12 lg6>
-          <div class="subheading">Selecciona tu cuenta</div>
+          <div class="subheading mt-1">Selecciona tu cuenta</div>
           <v-select
             item-text="number"
             item-value="id"
@@ -28,8 +28,7 @@
           v-if="currentAccount"
           >
           </my-account-detail>
-          <br>
-          <div class="subheading">¿A quién vas a transferir?</div>
+          <div class="subheading mt-4">¿A quién vas a transferir?</div>
           <v-combobox
             v-model="selectedDestinatary"
             v-bind:items="frecuentDestinataries"
@@ -50,12 +49,12 @@
         <br>
         <v-flex xs12 lg3>
           <div class="subheading">Ingresa el monto que vas a transferir</div>
-        <v-text-field 
-          v-model.number="amount"
-          v-bind:rules="amountRules"
-          label="Monto"
-          required>
-        </v-text-field>
+          <v-text-field 
+            v-model.number="amount"
+            v-bind:rules="amountRules"
+            label="Monto"
+            required>
+          </v-text-field>
         </v-flex>
         <v-flex xs12 lg7>
           <p class="subheading">Monto a Transferir : {{ amount | currency }}</p>
@@ -86,10 +85,12 @@ export default {
   },
   props : {
     accountData : {
-      type : Array
+      type : Array,
+      required : true
     },
     frecuentDestinataries : {
-      type : Array
+      type : Array,
+      required : true
     },
     currentAccount : {
       type : Object

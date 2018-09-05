@@ -24,28 +24,15 @@
     <v-divider></v-divider>
     <v-layout wrap>
       <v-flex xs12>
-        <v-alert
-          :value="true"
-          type="info"
-        >
+        <v-alert v-bind:value="true" type="info">
           Monto que vas a transferir : {{ amount | currency }}
         </v-alert>
       </v-flex>
     </v-layout>
     <v-layout wrap>
       <v-flex xs12>
-        <v-btn
-          color="primary"
-          v-on:click="submit"
-        >
-          Continue
-        </v-btn>
-        <v-btn 
-          flat
-          v-on:click="goBack"
-        >
-          Volver
-        </v-btn>
+        <v-btn color="primary" v-on:click="submit"> Continue </v-btn>
+        <v-btn flat v-on:click="goBack">Volver</v-btn>
       </v-flex>
     </v-layout>
   </v-container>

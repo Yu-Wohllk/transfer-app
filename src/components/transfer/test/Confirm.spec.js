@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import '../src/filters/filters.js'
+import 'Filters/filters.js'
 Vue.use(Vuetify)
 import Confirm from '@/transfer/Confirm.vue'
 
