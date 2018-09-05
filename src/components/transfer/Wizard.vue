@@ -59,13 +59,12 @@ export default {
   },
   data () {
     return {
-      step : 'Confirm',
       accountData : null,
       frecuentDestinataries : null,
       currentAccount : null,
       currentDestinataryAccount : null,
       amount : 0,
-      currentStep: 1,
+      currentStep: 1
     }
   },
   methods : {

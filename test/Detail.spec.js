@@ -1,13 +1,58 @@
 import { shallowMount } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import '../src/filters/filters.js'
 Vue.use(Vuetify)
-import Confirm from '@/components/transfer/Confirm.vue'
+import Detail from '@/transfer/Detail.vue'
 
-describe('Confirm.vue', () => {
-  it('emit event when next step clicked', () => {
-    const wrapper = shallowMount(Confirm);
-    wrapper.vm.submit();
-    expect(wrapper.emitted('go-next-step')).toBeTruthy();
+describe('Detail.vue', () => {
+  
+  it('can load data', () => {
+    const wrapper = mount();
   })
 })
+
+const mount = () => {
+  return shallowMount(Detail, {
+    propsData: {
+      currentAccount: {
+        'id': 1,
+        'type': 'Cuenta Corriente',
+        'accountBalance': 2000000,
+        'creditLine': 1000000,
+        'number': '0000-0000-0000'
+      },
+      currentDestinataryAccount : {
+        "id": 1, 
+        "name": "Americo Faundez", 
+        "accountData" : {
+          "bankName" : "BBVA",
+          "accountNumber" : "1234-5678-1234",
+          "accountType" : "Cuenta Corriente",
+          "headline" : "Americo Faundez",
+          "rut" : "11.111.111-1",
+          "email" : "afaundez@bbva.cl"
+        }
+      },
+      frecuentDestinataries : [{
+        "id": 1, 
+        "name": "Americo Faundez", 
+        "accountData" : {
+          "bankName" : "BBVA",
+          "accountNumber" : "1234-5678-1234",
+          "accountType" : "Cuenta Corriente",
+          "headline" : "Americo Faundez",
+          "rut" : "11.111.111-1",
+          "email" : "afaundez@bbva.cl"
+        }
+      }],
+      accountData : [{ 
+        "id" : 1, 
+        "type" : "Cuenta Corriente", 
+        "accountBalance" : 2000000, 
+        "creditLine" : 1000000,
+        "number" : "0000-0000-0000"
+      }]
+    }
+  })
+}
